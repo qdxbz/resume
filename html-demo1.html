@@ -3,7 +3,8 @@
 
 <head>
   <title>张思铭的个人简历</title>
-  <link rel="stylesheet" href="./a.css">
+  <link rel="stylesheet" href="./loading.css">
+  <link rel="stylesheet" href="./main.css">
   <script src="//at.alicdn.com/t/font_451045_32zbfqegtq3t0529.js"></script>
   <style type="text/css">
     .icon {
@@ -17,25 +18,38 @@
 </head>
 
 <body>
-  <div class="topNavBar">
+  <div id="siteWelcome" class="site-welcome active">
+    <div class="loading"></div>
+  </div>
+  <div id="topNavBar" class="topNavBar">
     <div class="topNavBar-inner clearfix">
       <a class="logo" href="#" alt="logo" style="float: left;">
         <span class="rs">RS</span>
         <span class="card">card</span>
       </a>
-      <nav style="float: right;">
+      <nav class="menu" style="float: right;">
         <ul class="clearfix">
           <li>
-            <a href="#">关于</a>
+            <a href="#siteAbout">关于</a>
           </li>
           <li>
-            <a href="#">技能</a>
+            <a href="#siteSkills">技能</a>
           </li>
           <li>
-            <a href="#">作品</a>
+            <a href="#siteWorks">作品</a>
+            <ul class="submenu">
+              <li class="subli">作品1</ll>
+              <li>作品2</ll>
+              <li>作品3</ll>
+            </ul>
           </li>
           <li>
             <a href="#">博客</a>
+            <ul class="submenu">
+                <li>博客1</ll>
+                <li>博客2</ll>
+                <li>博客3</ll>
+              </ul>
           </li>
           <li>
             <a href="#">日历</a>
@@ -54,7 +68,7 @@
     <div class="mask"></div>
   </div>
   <main style="">
-    <div class="userCard">
+    <div id="siteAbout" class="userCard">
       <div class="pictureAndText clearfix">
         <div class="picture">
           <img src="./img/avatar.jpg" width=299 height=347 alt="头像">
@@ -107,7 +121,7 @@
     </p>
 
   </main>
-  <section class="skills">
+  <section id="siteSkills"  class="skills">
     <h2>技能</h2>
     <ol class="clearfix">
       <li>
@@ -160,7 +174,7 @@
       </li>
     </ol>
   </section>
-  <section class="portfolio">
+  <section id="siteWorks" class="portfolio">
     <h2>作品集</h2>
     <nav>
       <ol class="clearfix">
@@ -198,6 +212,45 @@
     </div>
 
   </section>
+  <script>
+    /*定时器加载loading*/
+    setTimeout(function(){
+      siteWelcome.classList.remove('active');
+    },1000)
+    /*鼠标滚动头部跟随*/
+    window.onscroll=function(x){
+      if(window.scrollY>0){
+      topNavBar.classList.add('sticky');
+    }else{
+      topNavBar.classList.remove('sticky');
+    }
+    }
+    /*头部二级菜单*/
+    let liTags = document.querySelectorAll('nav.menu > ul> li')
+    for(let i=0;i<liTags.length;i++){
+      liTags[i].onmouseenter = function(x){
+        x.currentTarget.classList.add('active');
+      }
+      for(let i=0;i<liTags.length;i++){
+        liTags[i].onmouseleave = function(x){
+          x.currentTarget.classList.remove('active');
+        }
+      }
+    }
+    /*头部标签跳转内容显示*/
+    let aTags = document.querySelectorAll('nav.menu > ul > li > a');
+    for(let i=0;i<aTags.length;i++){
+      aTags[i].onclick = function(x){
+        x.preventDefault();
+        let a = x.currentTarget;
+        let href = a.getAttribute('href');
+        let element = document.querySelector(href);
+        let top = element.offsetTop;
+        window.scrollTo(0,top - 80);
+        console.log(top);
+      }
+    }
+  </script>
 </body>
 
 </html>
